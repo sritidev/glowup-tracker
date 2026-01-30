@@ -16,20 +16,23 @@ export default function Home() {
       <h1 className="text-center text-white text-2xl">Hi there,</h1>
       <h2 className="text-center text-white text-2xl">I'm Glow Up Tracker</h2>
       <p className="text-[#3a2d3087] text-center mt-5">
-            Your new daily 
-        </p>
-        <p className="text-[#3a2d3087] text-center mb-6">
+        Your new daily
+      </p>
+      <p className="text-[#3a2d3087] text-center mb-6">
         self-care companion ✨
-        </p>
+      </p>
       <div className="action-buttons-triggers py-4">
         <div className="w-full max-w-sm bg-white text-center p-4 mb-8 rounded-3xl shadow-xl">
           <a href="#" className="text-sm/6 font-semi-bold mt-12  text-center mb-4">
             Hi, GLOWUP TRACKER
-          </a>          
+          </a>
         </div>
-        <a href="#" className="text-gray-500 font-semi-bold ml-[20px] text-center uppercase">
+        <div className="flex items-center justify-center">
+          <a href="#" className="text-gray-500 font-semi-bold text-center uppercase">
             I already have an account
-        </a>
+          </a>
+        </div>
+
       </div>
 
     </main>
