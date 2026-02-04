@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import DailyCheckInCard from "./components/mood/DailyCheckInCard";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
         <div className="flex items-center justify-center">
           <Link className="text-gray-500 font-semi-bold text-center uppercase" 
           href="/dashboard">I already have an account</Link>
+          
         </div>
       </div>
     </main>
