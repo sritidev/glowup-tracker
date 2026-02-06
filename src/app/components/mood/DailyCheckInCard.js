@@ -16,7 +16,7 @@ export default function DailyCheckInCard({hydration,
   const inactive = "bg-white border-gray-200 hover:bg-gray-50";
 
   return (
-    <div className="max-w-md mx-auto bg-[#AAF0C1] p-6 rounded-t-4xl shadow-md space-y-6">
+    <div className="max-w-md mx-auto bg-[#dab2ff7d] p-6 rounded-t-4xl shadow-md space-y-6">
       <h2 className="text-xl font-semibold text-center">🌸 Daily Check-In</h2>
 
       {/* Hydration */}
