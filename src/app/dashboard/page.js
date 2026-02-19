@@ -3,7 +3,8 @@ import { useState } from "react"
 import DailyCheckInCard from "../components/mood/DailyCheckInCard";
 import MoodSelector from "../components/mood/MoodSelector";
 import DailySummary from "../components/DailySummary";
-import StreakCard from "../components/StreakCard";
+import GlowStreak from "../components/GlowStreak";
+import WeeklyPreview from "../components/WeeklyPreview";
 
 export default function Dashboard() {
     const [selectMood, setSelectMood] = useState(null);
@@ -41,6 +42,14 @@ export default function Dashboard() {
                     </div>
                 </div>
             )}
+            <div className="max-w-md mx-auto px-4">
+                <p className="text-2xl mt-6 pt-6 text-pink-500 font-semi-bold">Hello, Jenny</p>
+            </div>
+            <div className="grid md:grid-cols-2">
+  <WeeklyPreview />
+<GlowStreak streak={3} />
+</div>
+            
             <MoodSelector selectMood={selectMood} setSelectMood={setSelectMood} />
             <DailyCheckInCard
                 hydration={hydration}
@@ -56,7 +65,7 @@ export default function Dashboard() {
                 movement={movement}
                 energy={energy}
             />
-            <StreakCard/>
+            
             <div className="max-w-md mx-auto flex justify-around gap-4 mt-6 mb-4 px-4 text-center">
                 <button
                     onClick={handleSave}

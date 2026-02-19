@@ -14,7 +14,7 @@ export default function MoodSelector({selectMood, setSelectMood}) {
     <div className="max-w-md mx-auto bg-[#f7efe7] p-5 font-sans">
 
       {/* Header */}
-      <p className="text-lg text-pink-500 font-semi-bold">Hello, Jenny</p>
+      
       <h1 className="text-2xl leading-snug font-semibold mt-1">
         How do you feel about your <span className="font-bold">current emotions?</span>
       </h1>

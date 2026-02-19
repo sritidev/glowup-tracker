@@ -24,8 +24,7 @@ export default function Home() {
         self-care companion ✨
       </p>
       <div className="action-buttons-triggers py-4">
-        <div className="w-full max-w-sm bg-white text-center p-4 mb-8 rounded-3xl shadow-xl">
-         
+        <div className="w-full max-w-sm  bg-white text-center p-4 mb-8 rounded-3xl shadow-xl">
           <Link className="text-sm/6 font-semi-bold mt-12  text-center mb-4" 
           href="/dashboard"> Hi, GLOWUP TRACKER</Link>
         </div>
