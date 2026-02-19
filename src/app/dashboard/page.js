@@ -3,13 +3,13 @@ import { useState } from "react"
 import DailyCheckInCard from "../components/mood/DailyCheckInCard";
 import MoodSelector from "../components/mood/MoodSelector";
 import DailySummary from "../components/DailySummary";
+import StreakCard from "../components/StreakCard";
 
 export default function Dashboard() {
     const [selectMood, setSelectMood] = useState(null);
     const [hydration, setHydration] = useState(null);
     const [movement, setMovement] = useState(null);
     const [energy, setEnergy] = useState(null);
-    const [message, setMessage] = useState("");
     const [toast, setToast] = useState("");
 
 
@@ -56,12 +56,25 @@ export default function Dashboard() {
                 movement={movement}
                 energy={energy}
             />
-            <div className="max-w-md mx-auto mt-6 px-4 text-center">
+            <StreakCard/>
+            <div className="max-w-md mx-auto flex justify-around gap-4 mt-6 mb-4 px-4 text-center">
                 <button
                     onClick={handleSave}
-                    className="w-full bg-[#dab2ff7d] hover:bg-pink-500 text-white font-semibold py-3 rounded-2xl shadow-md transition"
+                    className="w-full bg-[#dab2ff7d] hover:bg-pink-500 text-white font-semibold py-3 rounded-xl shadow-md transition"
                 >
-                    Save Today’s Log 💾
+                    Save Today’s Log
+                </button>
+                <button
+                    onClick={()=>{
+                        setSelectMood(null);
+                        setHydration(null);
+                        setMovement(null);
+                        setEnergy(null);
+                    }
+                    }
+                    className="w-full bg-gray-600 hover:bg-pink-500 text-white font-semibold py-3 rounded-xl shadow-md transition"
+                >
+                    Reset
                 </button>
 
             </div>
