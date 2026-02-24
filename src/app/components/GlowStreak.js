@@ -1,5 +1,6 @@
-export default function GlowStreak({ streak = 3 }) {
+export default function GlowStreak({ week, setWeek }) {
     const totalDays = 7;
+    const streak = week.filter(day => day.mood !== null).length;
   
     return (
       <div className="max-w-md mx-auto mt-6 px-4">

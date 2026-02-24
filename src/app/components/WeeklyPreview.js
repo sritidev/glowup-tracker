@@ -1,16 +1,8 @@
 "use client";
 
-export default function WeeklyPreview() {
+export default function WeeklyPreview({week}) {
 
-  const week = [
-    { day: "Mon", mood: "😁" },
-    { day: "Tue", mood: "😊" },
-    { day: "Wed", mood: "😐" },
-    { day: "Thu", mood: "🙁" },
-    { day: "Fri", mood: "😁" },
-    { day: "Sat", mood: null },
-    { day: "Sun", mood: null },
-  ];
+  
 
   return (
     <div className="max-w-md mx-auto mt-6 bg-white p-4 rounded-2xl shadow-md">
@@ -22,7 +14,7 @@ export default function WeeklyPreview() {
         {week.map((item, index) => (
           <div key={index} className="flex flex-col items-center gap-1">
             <span className="text-xs text-gray-500">{item.day}</span>
-            <div className="w-10 h-10 rounded-full bg-[#f7efe7] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-[#f7efe7] flex gap-4 items-center justify-center">
               {item.mood ? item.mood : "—"}
             </div>
           </div>

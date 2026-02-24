@@ -12,25 +12,46 @@ export default function Dashboard() {
     const [movement, setMovement] = useState(null);
     const [energy, setEnergy] = useState(null);
     const [toast, setToast] = useState("");
+    const [week, setWeek] = useState([
+        { day: "Mon", mood: null },
+        { day: "Tue", mood: null },
+        { day: "Wed", mood: null },
+        { day: "Thu", mood: null },
+        { day: "Fri", mood: null },
+        { day: "Sat", mood: null },
+        { day: "Sun", mood: null },
+    ]);
 
 
     const handleSave = () => {
         if (!selectMood || !hydration || !movement || !energy) {
             setToast("Please complete all sections first 💭");
-
-              setTimeout(() => {
-                setToast("");
-              }, 9000);
-
+            setTimeout(() => setToast(""), 3000);
             return;
         }
 
-        setToast("Your glow-up log is saved for today 💖");
+        // 🔥 STEP 1: Get today's day index
+    const today = new Date().getDay(); 
+    // 0 = Sunday
+    // 1 = Monday
+    // ...
+    // 6 = Saturday
 
-        setTimeout(() => {
-            setToast("");
-        }, 3000);
-    };
+    // 🔥 STEP 2: Convert Sunday-first index to your Monday-first array
+    const adjustedIndex = today === 0 ? 6 : today - 1;
+
+    // 🔥 STEP 3: Copy week array (never mutate directly)
+    const updatedWeek = [...week];
+
+    // 🔥 STEP 4: Update today's mood
+    updatedWeek[adjustedIndex].mood = selectMood.emoji;
+
+    // 🔥 STEP 5: Save updated week to state
+    setWeek(updatedWeek);
+
+    setToast("Your glow-up log is saved for today 💖");
+    setTimeout(() => setToast(""), 3000);
+};
 
 
     return (
@@ -46,10 +67,10 @@ export default function Dashboard() {
                 <p className="text-2xl mt-6 pt-6 text-pink-500 font-semi-bold">Hello, Jenny</p>
             </div>
             <div className="grid md:grid-cols-2">
-  <WeeklyPreview />
-<GlowStreak streak={3} />
-</div>
-            
+                <WeeklyPreview week={week} />
+                <GlowStreak week={week} setWeek={setWeek} />
+            </div>
+
             <MoodSelector selectMood={selectMood} setSelectMood={setSelectMood} />
             <DailyCheckInCard
                 hydration={hydration}
@@ -65,7 +86,7 @@ export default function Dashboard() {
                 movement={movement}
                 energy={energy}
             />
-            
+
             <div className="max-w-md mx-auto flex justify-around gap-4 mt-6 mb-4 px-4 text-center">
                 <button
                     onClick={handleSave}
@@ -74,7 +95,7 @@ export default function Dashboard() {
                     Save Today’s Log
                 </button>
                 <button
-                    onClick={()=>{
+                    onClick={() => {
                         setSelectMood(null);
                         setHydration(null);
                         setMovement(null);
