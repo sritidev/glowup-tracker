@@ -1,6 +1,6 @@
 'use client'
 
-export default function MoodSelector({selectMood, setSelectMood}) {
+export default function MoodSelector({selectMood, setSelectMood, darkMode}) {
 
   const moods = [
     { emoji: "😁", label: "Happy" },
@@ -11,7 +11,14 @@ export default function MoodSelector({selectMood, setSelectMood}) {
   ];
 
   return (
-    <div className="max-w-md mx-auto bg-[#f7efe7] p-5 font-sans">
+    
+    <div
+              className={`max-w-md mx-auto bg-[#f7efe7] p-5 font-sans ${
+                darkMode
+                  ? "bg-gray-700"
+                  : "bg-[#f7efe7]"
+              }`}
+            >
 
       {/* Header */}
       
@@ -35,9 +42,22 @@ export default function MoodSelector({selectMood, setSelectMood}) {
       </div>
 
       {/* Selected Mood Display */}
-      <div className="mt-8 bg-white rounded-2xl p-5 shadow-sm">
+      
+      <div
+      className={`mt-8 bg-white rounded-2xl p-5 shadow-sm
+        ${darkMode
+          ? "bg-gray-800 text-white"
+          : "bg-white text-black"
+        }
+      `}
+    >
         {selectMood ? (
-          <p className="text-lg">
+          
+            <p
+        className={`text-lg ${
+          darkMode ? "text-gray-600" : "text-gray-400"
+        }`}
+      >
             Today you're feeling <span className="font-semibold">{selectMood.label}</span> {selectMood.emoji}
           </p>
         ) : (
