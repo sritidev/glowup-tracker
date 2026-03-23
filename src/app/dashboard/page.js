@@ -106,123 +106,136 @@ export default function Dashboard() {
     return (
 
         <main
-            className={`min-h-screen transition-colors duration-300 ${darkMode
-                ? "bg-gray-900 text-white"
-                : "bg-[#f7efe7] text-black"
-                }`}
-        >
-            {/* TOAST */}
-            {toast && (
-                <div className="fixed top-0 left-0 w-full z-50">
-                    <div className="mx-4 mt-4 bg-green-400 text-white py-3 rounded-xl text-center">
-                        {toast}
-                    </div>
-                </div>
-            )}
+  className={`relative min-h-screen transition-colors duration-500 overflow-hidden
+  ${darkMode ? "bg-gray-900 text-white" : "bg-[#f7efe7] text-black"}
+`}
+>
+
+{/* floating glow blobs */}
+<div className="absolute w-72 h-72 bg-pink-300 opacity-30 blur-3xl rounded-full top-10 left-10 animate-pulse"></div>
+<div className="absolute w-72 h-72 bg-purple-300 opacity-30 blur-3xl rounded-full bottom-10 right-10 animate-pulse"></div>
 
 
-            {/* HEADER */}
-            <div className="flex justify-between items-center max-w-6xl mx-auto px-4 pt-6">
-
-                <p className="text-2xl text-pink-500 font-semibold">
-                    Hello, Jenny
-                </p>
-
-                <Link
-                    href="/history"
-                    className="bg-pink-400 text-white px-4 py-2 rounded-xl text-sm"
-                >
-                    View History
-                </Link>
-                <button
-                    onClick={() => setDarkMode(!darkMode)}
-                    className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
-                >
-                    {darkMode ? (
-                        <Sun size={20} />
-                    ) : (
-                        <Moon size={20} />
-                    )}
-                </button>
-
-            </div>
+{/* TOAST */}
+{toast && (
+  <div className="fixed top-0 left-0 w-full z-50 flex justify-center animate-slideDown">
+    <div className="mt-4 bg-green-400 text-white px-6 py-3 rounded-xl shadow-lg">
+      {toast}
+    </div>
+  </div>
+)}
 
 
-            {/* GRID */}
-            <div className="max-w-6xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+{/* HEADER */}
+<div className="flex justify-between items-center max-w-6xl mx-auto px-4 pt-6">
 
-                {/* LEFT */}
-                <div>
-                    <WeeklyPreview week={week} darkMode={darkMode} />
-                </div>
+  <p className="text-2xl text-pink-500 font-semibold">
+    Hello, Jenny
+  </p>
 
+  <div className="flex items-center gap-3">
 
-                {/* CENTER */}
-                <div>
+    <Link
+      href="/history"
+      className="bg-pink-400 hover:bg-pink-500 text-white px-4 py-2 rounded-xl text-sm transition"
+    >
+      View History
+    </Link>
 
-                    <MoodSelector
-                        selectMood={selectMood}
-                        setSelectMood={setSelectMood}
-                        darkMode={darkMode}
-                    />
+    <button
+      onClick={() => setDarkMode(!darkMode)}
+      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition"
+    >
+      {darkMode ? <Sun size={20}/> : <Moon size={20}/>}
+    </button>
 
-                    <DailyCheckInCard
-                        hydration={hydration}
-                        setHydration={setHydration}
-                        movement={movement}
-                        setMovement={setMovement}
-                        energy={energy}
-                        setEnergy={setEnergy}
-                        darkMode={darkMode}
-                    />
+  </div>
 
-                    <DailySummary
-                        selectMood={selectMood}
-                        hydration={hydration}
-                        movement={movement}
-                        energy={energy}
-                        darkMode={darkMode}
-                    />
-
-                    <div className="flex gap-4 mt-6">
-
-                        <button
-                            onClick={handleSave}
-                            className={`w-full py-3 rounded-xl font-semibold ${darkMode
-                                    ? "bg-purple-600 text-white"
-                                    : "bg-[#dab2ff7d] text-black"
-                                }`}
-                        >
-                            Save Today’s Log
-                        </button>
-
-                        <button
-                            onClick={() => {
-                                setSelectMood(null);
-                                setHydration(null);
-                                setMovement(null);
-                                setEnergy(null);
-                            }}
-                            className={`w-full py-3 rounded-xl ${darkMode
-                                    ? "bg-gray-700 text-white"
-                                    : "bg-gray-600 text-white"
-                                }`}
-                        >
-                            Reset
-                        </button>
-
-                    </div>
-
-                </div>
+</div>
 
 
-                {/* RIGHT */}
-                <div>
-                    <GlowStreak week={week} animate={animateStreak} darkMode={darkMode} />
-                </div>
+{/* GRID */}
+<div className="max-w-6xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
 
-            </div>
+{/* LEFT */}
+<div className="animate-slideUp">
+  <WeeklyPreview week={week} darkMode={darkMode} />
+</div>
 
-        </main>
+
+{/* CENTER */}
+<div className="space-y-6 animate-slideUp delay-100">
+
+  <MoodSelector
+    selectMood={selectMood}
+    setSelectMood={setSelectMood}
+    darkMode={darkMode}
+  />
+
+  <DailyCheckInCard
+    hydration={hydration}
+    setHydration={setHydration}
+    movement={movement}
+    setMovement={setMovement}
+    energy={energy}
+    setEnergy={setEnergy}
+    darkMode={darkMode}
+  />
+
+  <DailySummary
+    selectMood={selectMood}
+    hydration={hydration}
+    movement={movement}
+    energy={energy}
+    darkMode={darkMode}
+  />
+
+
+  <div className="flex gap-4 mt-6">
+
+    <button
+      onClick={handleSave}
+      className={`w-full py-3 rounded-xl font-semibold transition
+      ${darkMode
+        ? "bg-purple-600 hover:bg-purple-700 text-white"
+        : "bg-[#dab2ff7d] hover:bg-[#d29cff] text-black"}
+      `}
+    >
+      Save Today’s Log
+    </button>
+
+    <button
+      onClick={() => {
+        setSelectMood(null);
+        setHydration(null);
+        setMovement(null);
+        setEnergy(null);
+      }}
+      className={`w-full py-3 rounded-xl transition
+      ${darkMode
+        ? "bg-gray-700 hover:bg-gray-600 text-white"
+        : "bg-gray-600 hover:bg-gray-500 text-white"}
+      `}
+    >
+      Reset
+    </button>
+
+  </div>
+
+</div>
+
+
+{/* RIGHT */}
+<div className="animate-slideUp delay-200">
+  <GlowStreak
+    week={week}
+    animate={animateStreak}
+    darkMode={darkMode}
+  />
+</div>
+
+</div>
+
+</main>
     );
 }
