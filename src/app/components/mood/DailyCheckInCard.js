@@ -1,102 +1,74 @@
 "use client";
 
+const QUESTIONS = [
+  {
+    key: "boundaries",
+    icon: "🛡️",
+    label: "Did you honor your boundaries today?",
+    options: ["Yes, I did 🛡️", "Mostly 🙂", "Not today 💭"],
+  },
+  {
+    key: "kindness",
+    icon: "💬",
+    label: "Were you kind to yourself in your self-talk?",
+    options: ["Very kind 💗", "Mostly kind 🌸", "Struggled 😔"],
+  },
+  {
+    key: "rest",
+    icon: "🌙",
+    label: "Did you allow yourself to rest without guilt?",
+    options: ["Totally 🌙", "A little 😌", "Not really 😬"],
+  },
+];
 
-export default function DailyCheckInCard({hydration, 
-  setHydration,
-  movement, 
-  setMovement,
-  energy, 
-  setEnergy,
-  darkMode,
-}) {
+export default function DailyCheckInCard({ checkin, setCheckin, darkMode }) {
+  const handleSelect = (key, value) => {
+    setCheckin((prev) => ({ ...prev, [key]: value }));
+  };
 
-  const buttonBase =
-    "px-4 py-2 rounded-full text-sm font-medium transition border";
-
-    const active = darkMode
-    ? "bg-purple-600 border-purple-500 text-white"
-    : "bg-pink-200 border-pink-300";
-  
+  const btnBase = "px-3.5 py-2 rounded-xl text-xs font-medium transition-all duration-200 border";
+  const active  = darkMode
+    ? "bg-rose-500/30 border-rose-400/40 text-white shadow-sm scale-[1.03]"
+    : "bg-rose-400/25 border-rose-300/50 text-rose-700 shadow-sm scale-[1.03]";
   const inactive = darkMode
-    ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-    : "bg-white border-gray-200 hover:bg-gray-50";
+    ? "bg-white/6 border-white/10 text-gray-300 hover:bg-white/12"
+    : "bg-white/55 border-white/65 text-gray-500 hover:bg-white/85";
 
   return (
-    <div
-  className={`max-w-md mx-auto p-6 rounded-t-4xl mt-5 shadow-md space-y-6 transition-colors duration-300 ${
-    darkMode
-      ? "bg-gray-800 text-white"
-      : "bg-[#dab2ff7d] text-black"
-  }`}
->
-      <h2 className="text-xl font-semibold text-center">🌸 Daily Check-In</h2>
-
-      {/* Hydration */}
+    <div className={`rounded-3xl p-6 space-y-5 ${darkMode ? "glass-card-dark" : "glass-card"}`}>
       <div>
-        <p className={`text-sm mb-3 ${darkMode ? "text-gray-200" : ""}`}>Did you drink enough water today?</p>
-        <div className="flex gap-2 flex-wrap">
-          {["Yes 💧", "Almost 🙂", "Not really 😅"].map((option) => (
-            <button
-              key={option}
-              onClick={() => setHydration(option)}
-              className={`${buttonBase} ${
-                hydration === option ? active : inactive
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
+        <p className={`text-xs font-semibold uppercase tracking-widest ${darkMode ? "text-rose-400" : "text-rose-400"}`}>
+          Self-Love Check-In
+        </p>
+        <h2 className={`text-base font-bold mt-0.5 ${darkMode ? "text-white" : "text-gray-800"}`}>
+          💗 Checking in with yourself
+        </h2>
+        <p className={`text-xs mt-1 ${darkMode ? "text-gray-400" : "text-gray-400"}`}>
+          Three gentle questions — answer honestly, with compassion
+        </p>
       </div>
 
-      {/* Movement */}
-      <div>
-        <p className={`text-sm mb-3 ${darkMode ? "text-gray-200" : ""}`}>Did you move your body today?</p>
-        <div className="flex gap-2 flex-wrap">
-          {["Yes 🏃", "A little 🧘", "Rest day 🛋"].map((option) => (
-            <button
-              key={option}
-              onClick={() => setMovement(option)}
-              className={`${buttonBase} ${
-                movement === option ? active : inactive
-              }`}
-            >
-              {option}
-            </button>
-          ))}
+      {QUESTIONS.map((q) => (
+        <div key={q.key}>
+          <p className={`text-sm font-semibold mb-2.5 flex items-center gap-2 ${darkMode ? "text-gray-200" : "text-gray-700"}`}>
+            <span>{q.icon}</span> {q.label}
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            {q.options.map((opt) => (
+              <button
+                key={opt}
+                onClick={() => handleSelect(q.key, opt)}
+                className={`${btnBase} ${checkin[q.key] === opt ? active : inactive}`}
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      ))}
 
-      {/* Energy */}
-      <div>
-        <p className={`text-sm mb-3 ${darkMode ? "text-gray-200" : ""}`}>How is your energy right now?</p>
-        <div className="flex gap-3">
-          {["⚡", "🙂", "🥱"].map((emoji) => (
-            <button
-              key={emoji}
-              onClick={() => setEnergy(emoji)}
-              className={`w-12 h-12 flex items-center justify-center text-xl rounded-full border transition ${
-                energy === emoji
-                ? darkMode
-                ? "bg-purple-600 border-purple-500 text-white"
-                : "bg-purple-200 border-purple-300"
-              : darkMode
-                ? "bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                : "bg-white border-gray-200 hover:bg-gray-50"
-              }`}
-            >
-              {emoji}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <p
-  className={`text-center text-xs ${
-    darkMode ? "text-gray-300" : "text-gray-500"
-  }`}
->
-        Every small step counts 💖
+      <p className={`text-center text-xs pt-1 ${darkMode ? "text-gray-500" : "text-gray-400"}`}>
+        You deserve your own compassion first 🌷
       </p>
     </div>
   );

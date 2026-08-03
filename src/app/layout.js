@@ -1,11 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import { Poppins, Pacifico } from "next/font/google";
+import { AuthProvider } from "./context/AuthContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "600", "700"],
   variable: "--font-poppins",
 });
 
@@ -16,24 +15,17 @@ const pacifico = Pacifico({
 });
 
 export const metadata = {
-  title: "Glow Up Tracker App",
-  description: "Glow Up Tracker app",
+  title: "Self Love Tracker",
+  description: "Your daily self-love, mood & gratitude companion 🌸",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`
-          ${poppins.variable}
-          ${pacifico.variable}
-          antialiased
-          bg-[#f7efe7]
-          dark:bg-black
-          dark:text-white
-        `}
-      >
-        {children}
+      <body className={`${poppins.variable} ${pacifico.variable} antialiased`}>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
