@@ -17,6 +17,20 @@ const pacifico = Pacifico({
 export const metadata = {
   title: "Self Love Tracker",
   description: "Your daily self-love, mood & gratitude companion 🌸",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Self Love",
+  },
+  icons: {
+    icon: "/selfcare.png",
+    apple: "/selfcare.png",
+  },
+};
+
+export const viewport = {
+  themeColor: "#f43f8a",
 };
 
 export default function RootLayout({ children }) {

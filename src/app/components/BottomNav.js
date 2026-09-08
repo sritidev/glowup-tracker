@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, BookHeart, Quote, Wind, Clock, UserCircle } from "lucide-react";
+import { Home, BookHeart, Activity, TrendingUp, UserCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function BottomNav({ darkMode }) {
@@ -10,32 +10,33 @@ export default function BottomNav({ darkMode }) {
   const { profile } = useAuth();
 
   const navItems = [
-    { href: "/",          icon: Home,      label: "Home"    },
-    { href: "/dashboard", icon: BookHeart, label: "Journal" },
-    { href: "/quotes",    icon: Quote,     label: "Quotes"  },
-    { href: "/breathe",   icon: Wind,      label: "Breathe" },
-    { href: "/history",   icon: Clock,     label: "History" },
+    { href: "/dashboard", icon: Home,       label: "Home"     },
+    { href: "/journal",   icon: BookHeart,  label: "Journal"  },
+    { href: "/move",      icon: Activity,   label: "Move"     },
+    { href: "/insights",  icon: TrendingUp, label: "Insights" },
   ];
+
+  // Active if pathname starts with the href (so /move/[id] highlights Move)
+  const isActive = (href) => href === "/dashboard"
+    ? pathname === "/dashboard"
+    : pathname === href || pathname.startsWith(href + "/");
 
   return (
     <nav className={`
       fixed bottom-0 left-0 w-full z-50
       flex justify-around items-center
       px-2 py-1.5 backdrop-blur-2xl
-      ${darkMode
-        ? "bg-black/60 border-t border-white/8"
-        : "bg-white/70 border-t border-rose-100/60"
-      }
+      ${darkMode ? "bg-black/60 border-t border-white/8" : "bg-white/70 border-t border-rose-100/60"}
     `}>
       {navItems.map((item) => {
         const Icon = item.icon;
-        const isActive = pathname === item.href;
+        const active = isActive(item.href);
         return (
           <Link key={item.href} href={item.href}
             className={`flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-2xl transition-all duration-200
-              ${isActive ? darkMode ? "bg-rose-500/20" : "bg-rose-500/12" : "hover:bg-white/10"}`}>
-            <Icon size={20} className={`transition-all duration-200 ${isActive ? "text-rose-500 scale-110" : darkMode ? "text-gray-400" : "text-gray-400"}`} />
-            <span className={`text-[9px] font-semibold ${isActive ? "text-rose-500" : darkMode ? "text-gray-500" : "text-gray-400"}`}>
+              ${active ? darkMode ? "bg-rose-500/20" : "bg-rose-500/12" : "hover:bg-white/10"}`}>
+            <Icon size={20} className={`transition-all duration-200 ${active ? "text-rose-500 scale-110" : darkMode ? "text-gray-400" : "text-gray-400"}`} />
+            <span className={`text-[9px] font-semibold ${active ? "text-rose-500" : darkMode ? "text-gray-500" : "text-gray-400"}`}>
               {item.label}
             </span>
           </Link>

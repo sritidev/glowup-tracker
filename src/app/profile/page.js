@@ -1,16 +1,46 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Camera, LogOut, Save, User, Mail, Lock, Trash2 } from "lucide-react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { useAuth } from "../context/AuthContext";
+import { computeStreaks } from "../../lib/streak";
 import BottomNav from "../components/BottomNav";
+import WellnessGoals from "../components/WellnessGoals";
+import Achievements from "../components/Achievements";
 
 export default function ProfilePage() {
   const { darkMode, toggle } = useDarkMode();
   const { user, profile, signOut, refreshProfile, supabase } = useAuth();
   const router = useRouter();
+
+  const [stats, setStats] = useState({
+    selfLoveStreak: 0, journalCount: 0, workoutCount: 0, moveActiveDays: 0,
+    breatheCount: 0, hydrationGoalDays: 0, sleepGoalDays: 0,
+  });
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const [moodRes, journalRes, workoutRes] = await Promise.all([
+        supabase.from("mood_entries").select("logged_date, rituals, hydration_ml, hydration_goal, sleep_minutes, sleep_goal").eq("user_id", user.id),
+        supabase.from("journal_entries").select("id").eq("user_id", user.id),
+        supabase.from("workouts").select("logged_date").eq("user_id", user.id),
+      ]);
+      const moods = moodRes.data ?? [];
+      const workouts = workoutRes.data ?? [];
+      setStats({
+        selfLoveStreak: computeStreaks(moods.map((m) => m.logged_date)).current,
+        journalCount: journalRes.data?.length ?? 0,
+        workoutCount: workouts.length,
+        moveActiveDays: new Set(workouts.map((w) => w.logged_date)).size,
+        breatheCount: moods.filter((m) => (m.rituals ?? []).includes("breathe")).length,
+        hydrationGoalDays: moods.filter((m) => (m.hydration_ml ?? 0) >= (m.hydration_goal ?? 2000)).length,
+        sleepGoalDays: moods.filter((m) => m.sleep_minutes != null && m.sleep_minutes >= (m.sleep_goal ?? 480)).length,
+      });
+    })();
+  }, [user]);
 
   const [name,      setName]      = useState(profile?.name ?? "");
   const [saving,    setSaving]    = useState(false);
@@ -139,6 +169,12 @@ export default function ProfilePage() {
             Member since {user?.created_at ? new Date(user.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" }) : "—"}
           </p>
         </div>
+
+        {/* Wellness Goals */}
+        <WellnessGoals darkMode={darkMode} />
+
+        {/* Achievements */}
+        <Achievements stats={stats} darkMode={darkMode} />
 
         {/* Edit name */}
         <div className={`rounded-3xl p-6 ${darkMode ? "glass-card-dark" : "glass-card"}`}>
