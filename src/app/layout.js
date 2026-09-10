@@ -24,8 +24,8 @@ export const metadata = {
     title: "Self Love",
   },
   icons: {
-    icon: "/selfcare.png",
-    apple: "/selfcare.png",
+    icon: "/icon-192.png",
+    apple: "/icon-512.png",
   },
 };
 
