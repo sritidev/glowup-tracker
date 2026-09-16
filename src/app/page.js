@@ -40,7 +40,7 @@ export default function Intro() {
           <button
             onClick={() => setShowChoices(true)}
             aria-label="Get started"
-            className="mt-7 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-xl transition-all hover:scale-105 active:scale-95"
+            className="mt-7 w-14 h-14 rounded-full cursor-pointer bg-white/95 flex items-center justify-center shadow-xl transition-all hover:scale-105 active:scale-95"
           >
             <ArrowRight size={22} className="text-rose-600" />
           </button>
@@ -52,7 +52,7 @@ export default function Intro() {
             <div className="w-full bg-white rounded-t-[32px] p-7 pb-9">
               <div className="flex items-center justify-between mb-1">
                 <h2 className="text-xl font-bold gradient-text-love">Welcome 🌸</h2>
-                <button onClick={() => setShowChoices(false)} className="p-2 rounded-xl bg-gray-100 text-gray-500">
+                <button onClick={() => setShowChoices(false)} className="p-2 rounded-xl bg-gray-100 cursor-pointer text-gray-500">
                   <X size={16} />
                 </button>
               </div>
