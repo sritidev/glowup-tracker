@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Poppins, Pacifico } from "next/font/google";
 import { AuthProvider } from "./context/AuthContext";
+import ServiceWorkerRegister from "./components/ServiceWorkerRegister";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${pacifico.variable} antialiased`}>
+        <ServiceWorkerRegister />
         <AuthProvider>
           {children}
         </AuthProvider>
