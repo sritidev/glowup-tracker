@@ -24,10 +24,12 @@ export default function Intro() {
 
         {/* Text + CTA overlay */}
         <div className="absolute inset-x-0 bottom-0 p-8 pb-10">
-          <h1 className="text-white text-4xl font-black leading-[1.1] tracking-tight drop-shadow-lg">
-            Self Love
-            <br />Planner
+          <h1 className="text-white text-5xl font-black leading-[1.05] tracking-tight drop-shadow-lg">
+            MyAura
           </h1>
+          <p className="text-white/90 text-base font-semibold mt-1 drop-shadow">
+            Your wellness planner 🌸
+          </p>
 
           <p className="text-white/85 text-sm leading-relaxed mt-4 max-w-[300px] drop-shadow">
             Learning to treat yourself with love, respect, kindness and

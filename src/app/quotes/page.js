@@ -84,7 +84,7 @@ export default function QuotesPage() {
 
   const handleShare = async (q) => {
     const text = `"${q.text}" — ${q.author}`;
-    if (navigator.share) { await navigator.share({ title: "Self Love Quote", text }); }
+    if (navigator.share) { await navigator.share({ title: "MyAura Quote", text }); }
     else { await navigator.clipboard.writeText(text); setCopied(q.id); setTimeout(() => setCopied(null), 2000); }
   };
 

@@ -16,13 +16,13 @@ const pacifico = Pacifico({
 });
 
 export const metadata = {
-  title: "Self Love Tracker",
-  description: "Your daily self-love, mood & gratitude companion 🌸",
+  title: "MyAura",
+  description: "MyAura — your daily wellness, mood & self-care companion 🌸",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Self Love",
+    title: "MyAura",
   },
   icons: {
     icon: "/icon-192.png",

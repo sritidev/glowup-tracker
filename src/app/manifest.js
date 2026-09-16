@@ -1,9 +1,9 @@
 export default function manifest() {
   return {
-    name: "Self Love — Wellness Companion",
-    short_name: "Self Love",
+    name: "MyAura — Wellness Companion",
+    short_name: "MyAura",
     description: "Track mood, movement, hydration, sleep & self-care — gently.",
-    start_url: "/dashboard",
+    start_url: "/",
     display: "standalone",
     orientation: "portrait",
     background_color: "#fff5f7",
