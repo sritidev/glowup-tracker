@@ -31,7 +31,9 @@ export async function updateSession(request) {
   const PUBLIC_PATHS = ["/login", "/register", "/forgot-password", "/auth/callback"];
   const PUBLIC_FILES = ["/manifest.webmanifest", "/sw.js"];
   const pathname = request.nextUrl.pathname;
-  const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p)) || PUBLIC_FILES.includes(pathname);
+  // The intro/landing page "/" is public too
+  const isIntro = pathname === "/";
+  const isPublic = isIntro || PUBLIC_PATHS.some((p) => pathname.startsWith(p)) || PUBLIC_FILES.includes(pathname);
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
@@ -39,7 +41,8 @@ export async function updateSession(request) {
     return NextResponse.redirect(url);
   }
 
-  if (user && (pathname === "/login" || pathname === "/register")) {
+  // Logged-in users skip intro/login/register — go straight to the app
+  if (user && (isIntro || pathname === "/login" || pathname === "/register")) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
