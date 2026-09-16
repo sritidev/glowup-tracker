@@ -29,8 +29,9 @@ export async function updateSession(request) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const PUBLIC_PATHS = ["/login", "/register", "/forgot-password", "/auth/callback"];
+  const PUBLIC_FILES = ["/manifest.webmanifest", "/sw.js"];
   const pathname = request.nextUrl.pathname;
-  const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p));
+  const isPublic = PUBLIC_PATHS.some((p) => pathname.startsWith(p)) || PUBLIC_FILES.includes(pathname);
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
