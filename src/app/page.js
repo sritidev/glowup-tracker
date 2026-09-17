@@ -70,6 +70,9 @@ export default function Intro() {
               <p className="text-center text-[11px] text-gray-400 mt-6">
                 You deserve the same love you give to everyone else 💗
               </p>
+              <Link href="/privacy" className="block text-center text-[11px] text-gray-400 mt-2 underline underline-offset-2 hover:text-rose-500">
+                Privacy Policy
+              </Link>
             </div>
           </div>
         )}

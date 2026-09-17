@@ -33,7 +33,11 @@ export async function updateSession(request) {
   const pathname = request.nextUrl.pathname;
   // The intro/landing page "/" is public too
   const isIntro = pathname === "/";
-  const isPublic = isIntro || PUBLIC_PATHS.some((p) => pathname.startsWith(p)) || PUBLIC_FILES.includes(pathname);
+  // "/privacy" is a public legal page — viewable by everyone, logged in or not
+  const isLegal = pathname === "/privacy";
+  // API routes handle their own auth (return JSON 401) — never redirect them to /login
+  const isApi = pathname.startsWith("/api/");
+  const isPublic = isIntro || isLegal || isApi || PUBLIC_PATHS.some((p) => pathname.startsWith(p)) || PUBLIC_FILES.includes(pathname);
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
@@ -41,7 +45,7 @@ export async function updateSession(request) {
     return NextResponse.redirect(url);
   }
 
-  // Logged-in users skip intro/login/register — go straight to the app
+  // Logged-in users skip intro/login/register — go straight to the app (but NOT /privacy)
   if (user && (isIntro || pathname === "/login" || pathname === "/register")) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Moon, Sun, Sparkles, Quote as QuoteIcon, Wind, CalendarDays, Library } from "lucide-react";
+// Pinterest "My Inspiration" tile uses Sparkles
 import Link from "next/link";
 
 import { useDarkMode }     from "../hooks/useDarkMode";
@@ -195,6 +196,9 @@ export default function Dashboard() {
             <h1 className="text-xl font-bold gradient-text-love">{firstName ? `Hello, ${firstName}` : "Your wellness space"}</h1>
           </div>
           <div className="flex items-center gap-2">
+            <Link href="/pinterest" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-fuchsia-300 border-white/10" : "bg-white/60 text-fuchsia-500 border-white/70"}`} title="My Inspiration">
+              <Sparkles size={16} />
+            </Link>
             <Link href="/calendar" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-rose-300 border-white/10" : "bg-white/60 text-rose-500 border-white/70"}`} title="Calendar">
               <CalendarDays size={16} />
             </Link>

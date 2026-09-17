@@ -2,7 +2,7 @@
 // Enables PWA installability (Chrome requires a fetch handler) and a
 // lightweight offline shell. Network-first so users always get fresh data.
 
-const CACHE = "self-love-v1";
+const CACHE = "myaura-v2";
 const PRECACHE = ["/dashboard", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
@@ -24,8 +24,15 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
+  const url = new URL(request.url);
+
   // Only handle same-origin GET requests; let Supabase/auth calls pass through
-  if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) {
+  if (request.method !== "GET" || url.origin !== self.location.origin) {
+    return;
+  }
+
+  // NEVER cache API routes (Pinterest auth + private data) — always hit network
+  if (url.pathname.startsWith("/api/")) {
     return;
   }
 
