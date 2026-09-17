@@ -139,7 +139,7 @@ export default function PrivacyPolicy() {
 
             <Section title="12. Contact us">
               If you have any questions about this policy or your data, please contact us at{" "}
-              <span className="text-rose-500 font-semibold">support@myaura.app</span>.
+              <a href="mailto:singhsriti10@gmail.com" className="text-rose-500 font-semibold hover:underline">singhsriti10@gmail.com</a>.
             </Section>
 
           </div>
