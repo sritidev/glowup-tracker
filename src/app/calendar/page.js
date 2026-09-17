@@ -30,6 +30,7 @@ export default function CalendarPage() {
   const [selected, setSelected] = useState(null);   // iso date string
   const [adding, setAdding] = useState(false);
   const [notifOn, setNotifOn] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
   // form
   const [title, setTitle] = useState("");
@@ -57,9 +58,14 @@ export default function CalendarPage() {
 
   const addEvent = async () => {
     if (!title.trim() || !selected) return;
-    const { data } = await supabase.from("calendar_events").insert({
+    const { data, error } = await supabase.from("calendar_events").insert({
       user_id: user.id, title: title.trim(), event_date: selected, event_type: type, note: note.trim() || null, remind,
     }).select().single();
+    if (error) {
+      setErrMsg("Couldn't save this event. Please try again in a moment.");
+      setTimeout(() => setErrMsg(""), 4000);
+      return;
+    }
     if (data) setEvents((prev) => [...prev, data]);
     setAdding(false); setTitle(""); setNote(""); setType("personal"); setRemind(true);
   };
@@ -154,6 +160,11 @@ export default function CalendarPage() {
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 mt-5 space-y-4">
+        {errMsg && (
+          <div className="px-5 py-3 rounded-2xl text-center text-sm font-semibold border bg-red-500/85 border-red-300/20 text-white animate-fade-in-up">
+            {errMsg}
+          </div>
+        )}
         {/* Month nav + grid */}
         <div className={`rounded-3xl p-6 ${card}`}>
           <div className="flex items-center justify-between mb-4">

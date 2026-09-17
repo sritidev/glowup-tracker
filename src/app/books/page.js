@@ -29,6 +29,7 @@ export default function BooksPage() {
   const [adding,  setAdding]  = useState(false);
   const [search,  setSearch]  = useState("");
   const [view,    setView]    = useState(null);
+  const [errMsg,  setErrMsg]  = useState("");
 
   // form
   const [title,      setTitle]      = useState("");
@@ -53,10 +54,15 @@ export default function BooksPage() {
 
   const addBook = async () => {
     if (!title.trim()) return;
-    const { data } = await supabase.from("books").insert({
+    const { data, error } = await supabase.from("books").insert({
       user_id: user.id, title: title.trim(), author: author.trim() || null,
       rating, experience: experience.trim() || null, finished_on: finishedOn || null,
     }).select().single();
+    if (error) {
+      setErrMsg("Couldn't save this book. Please try again in a moment.");
+      setTimeout(() => setErrMsg(""), 4000);
+      return;
+    }
     if (data) setBooks((prev) => [data, ...prev]);
     setAdding(false); resetForm();
   };
@@ -145,6 +151,11 @@ export default function BooksPage() {
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 mt-5 space-y-4">
+        {errMsg && (
+          <div className="px-5 py-3 rounded-2xl text-center text-sm font-semibold border bg-red-500/85 border-red-300/20 text-white animate-fade-in-up">
+            {errMsg}
+          </div>
+        )}
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           {[
