@@ -97,11 +97,26 @@ export async function searchPlaylistsForMood(mood, { limit = 12 } = {}) {
 
   const seen = new Set();
   const playlists = [];
+  let okCount = 0;
+  let lastError = null;
 
   for (const res of responses) {
-    // Skip a single failed keyword rather than failing the whole search,
-    // unless every keyword failed (handled by the caller returning [] → empty).
-    if (!res.ok) continue;
+    if (!res.ok) {
+      // Capture Google's error reason so failures aren't silently swallowed.
+      // The most common production cause is a key with an HTTP-referrer
+      // application restriction, which returns 403 for server-side calls.
+      // We read the reason for logging only — the API key is never logged.
+      let reason = "";
+      try {
+        const errBody = await res.json();
+        reason = errBody?.error?.errors?.[0]?.reason || errBody?.error?.status || "";
+      } catch {
+        // ignore body parse issues
+      }
+      lastError = new Error(`YouTube search returned ${res.status}${reason ? ` (${reason})` : ""}`);
+      continue;
+    }
+    okCount++;
 
     const data = await res.json();
     const items = data?.items ?? [];
@@ -125,6 +140,10 @@ export async function searchPlaylistsForMood(mood, { limit = 12 } = {}) {
       });
     }
   }
+
+  // If every keyword request failed (e.g. key restriction / bad key / quota),
+  // throw so the route surfaces an error instead of a misleading empty result.
+  if (okCount === 0 && lastError) throw lastError;
 
   return playlists.slice(0, limit);
 }
