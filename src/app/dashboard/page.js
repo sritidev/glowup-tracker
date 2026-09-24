@@ -1,9 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Moon, Sun, Sparkles, Quote as QuoteIcon, Wind, CalendarDays, Library } from "lucide-react";
-// Pinterest "My Inspiration" tile uses Sparkles
+import { Moon, Sun, Quote as QuoteIcon, Wind, CalendarDays, BookOpen, Music2 } from "lucide-react";
 import Link from "next/link";
+
+// Official Pinterest brand glyph (lucide-react no longer ships brand icons).
+function PinterestIcon({ size = 16, ...props }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="#E60023"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345c-.091.378-.293 1.194-.333 1.361-.052.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0" />
+    </svg>
+  );
+}
 
 import { useDarkMode }     from "../hooks/useDarkMode";
 import { useAuth }         from "../context/AuthContext";
@@ -196,14 +212,17 @@ export default function Dashboard() {
             <h1 className="text-xl font-bold gradient-text-love">{firstName ? `Hello, ${firstName}` : "Your wellness space"}</h1>
           </div>
           <div className="flex items-center gap-2">
+            <Link href="/sounds" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-emerald-300 border-white/10" : "bg-white/60 text-emerald-500 border-white/70"}`} title="MyAura Sounds">
+              <Music2 size={16} />
+            </Link>
             <Link href="/pinterest" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-fuchsia-300 border-white/10" : "bg-white/60 text-fuchsia-500 border-white/70"}`} title="My Inspiration">
-              <Sparkles size={16} />
+              <PinterestIcon size={16} />
             </Link>
             <Link href="/calendar" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-rose-300 border-white/10" : "bg-white/60 text-rose-500 border-white/70"}`} title="Calendar">
               <CalendarDays size={16} />
             </Link>
             <Link href="/books" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-amber-300 border-white/10" : "bg-white/60 text-amber-500 border-white/70"}`} title="Bookshelf">
-              <Library size={16} />
+              <BookOpen size={16} />
             </Link>
             <Link href="/quotes" className={`p-2.5 rounded-xl border transition-all hover:scale-105 ${darkMode ? "bg-white/8 text-rose-300 border-white/10" : "bg-white/60 text-rose-500 border-white/70"}`} title="Quotes">
               <QuoteIcon size={16} />
@@ -229,38 +248,43 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Grid */}
-      <div className="relative z-10 max-w-7xl mx-auto mt-5 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* LEFT — mind */}
+      {/* Cards — three explicitly balanced columns so heights stay even on desktop.
+          Each column is a flex-col that sits at natural height (items-start via self-start),
+          and collapses to a single stacked column on mobile. */}
+      <div className="relative z-10 max-w-7xl mx-auto mt-5 px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+        {/* Column 1 */}
         <div className="flex flex-col gap-5">
           <MoodSelector selectMood={mood} setSelectMood={setMood} darkMode={darkMode} />
-          <DailyCheckInCard checkin={checkin} setCheckin={setCheckin} darkMode={darkMode} />
-          <DailyAffirmation darkMode={darkMode} />
-        </div>
-
-        {/* CENTER — body */}
-        <div className="flex flex-col gap-5">
-          <HydrationTracker ml={hydrationMl} goal={hydrationGoal} onChange={handleHydration} darkMode={darkMode} />
           <StepsTracker steps={steps} goal={stepsGoal} onChange={handleSteps} onGoalChange={handleStepsGoal} darkMode={darkMode} />
-          <SleepTracker sleepMinutes={sleepMinutes} goal={sleepGoal} onSave={handleSleep} darkMode={darkMode} />
-          <NourishTracker nourishment={nourishment} setNourishment={handleNourish} darkMode={darkMode} />
           <GratitudeJournal gratitude={gratitude} setGratitude={setGratitude} darkMode={darkMode} />
-          <DailySummary mood={mood} checkin={checkin} rituals={rituals} gratitude={gratitude} darkMode={darkMode} />
-
-          <div className="flex gap-3">
-            <button onClick={handleSave} className="flex-1 py-3.5 rounded-2xl font-bold text-white text-sm bg-gradient-to-r from-rose-500 to-pink-500 shadow-lg shadow-rose-400/25 transition-all hover:scale-[1.02] active:scale-[0.98]">
-              Save Today&apos;s Entry 💾
-            </button>
-            <Link href="/move" className="flex-1 py-3.5 rounded-2xl font-semibold text-white text-sm text-center bg-gradient-to-r from-fuchsia-500 to-purple-500 shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]">
-              Move Your Body 🏃
-            </Link>
-          </div>
         </div>
 
-        {/* RIGHT — momentum */}
+        {/* Column 2 */}
+        <div className="flex flex-col gap-5">
+          <DailyCheckInCard checkin={checkin} setCheckin={setCheckin} darkMode={darkMode} />
+          <NourishTracker nourishment={nourishment} setNourishment={handleNourish} darkMode={darkMode} />
+          <SelfCareRituals rituals={rituals} setRituals={setRituals} darkMode={darkMode} />
+        </div>
+
+        {/* Column 3 */}
         <div className="flex flex-col gap-5">
           <GlowStreak streak={streak} animate={animateStreak} darkMode={darkMode} />
-          <SelfCareRituals rituals={rituals} setRituals={setRituals} darkMode={darkMode} />
+          <HydrationTracker ml={hydrationMl} goal={hydrationGoal} onChange={handleHydration} darkMode={darkMode} />
+          <SleepTracker sleepMinutes={sleepMinutes} goal={sleepGoal} onSave={handleSleep} darkMode={darkMode} />
+          <DailyAffirmation darkMode={darkMode} />
+          <DailySummary mood={mood} checkin={checkin} rituals={rituals} gratitude={gratitude} darkMode={darkMode} />
+        </div>
+      </div>
+
+      {/* Action buttons — full width below the cards */}
+      <div className="relative z-10 max-w-7xl mx-auto mt-1 px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button onClick={handleSave} className="flex-1 py-3.5 rounded-2xl font-bold text-white text-sm bg-gradient-to-r from-rose-500 to-pink-500 shadow-lg shadow-rose-400/25 transition-all hover:scale-[1.02] active:scale-[0.98]">
+            Save Today&apos;s Entry 💾
+          </button>
+          <Link href="/move" className="flex-1 py-3.5 rounded-2xl font-semibold text-white text-sm text-center bg-gradient-to-r from-fuchsia-500 to-purple-500 shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]">
+            Move Your Body 🏃
+          </Link>
         </div>
       </div>
 

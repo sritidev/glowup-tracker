@@ -42,7 +42,7 @@ export default function GlowStreak({ streak, animate, darkMode }) {
   }, [current]);
 
   return (
-    <div className={`rounded-3xl p-6 h-full flex flex-col ${darkMode ? "glass-card-dark" : "glass-card"}`}>
+    <div className={`rounded-3xl p-6 flex flex-col ${darkMode ? "glass-card-dark" : "glass-card"}`}>
       <p className={`text-xs font-semibold uppercase tracking-widest ${darkMode ? "text-rose-400" : "text-rose-400"}`}>
         Self-Love Streak
       </p>
@@ -103,7 +103,7 @@ export default function GlowStreak({ streak, animate, darkMode }) {
       </div>
 
       {/* Milestones */}
-      <div className={`mt-5 pt-4 border-t flex-1 ${darkMode ? "border-white/8" : "border-rose-100"}`}>
+      <div className={`mt-5 pt-4 border-t ${darkMode ? "border-white/8" : "border-rose-100"}`}>
         <p className={`text-xs font-semibold mb-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
           Milestones
         </p>
